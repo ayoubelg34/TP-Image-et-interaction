@@ -2,10 +2,13 @@ import cv2
 import mediapipe as mp
 import numpy as np
 from PongGame import PongGame
+<<<<<<< HEAD
 from HandTracker import HandTracker
 from Ball import Ball
 from Paddle import Paddle
 
+=======
+>>>>>>> main
 
 def main():
     cap = cv2.VideoCapture(0)

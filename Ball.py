@@ -7,9 +7,10 @@ class Ball:
         self.position = np.array(position, dtype=float)
         self.velocity = np.array(velocity, dtype=float)
         self.size = size
+        self.speed_factor = 1.0  # Initial speed factor
 
     def update(self, dt, screen_width, screen_height):
-        self.position += self.velocity * dt
+        self.position += self.velocity * dt * self.speed_factor
 
         # Gérer les rebonds avec les bords supérieur et inférieur
         if self.position[1] <= 0 or self.position[1] >= screen_height - self.size:
@@ -19,6 +20,8 @@ class Ball:
         if (paddle.x <= self.position[0] <= paddle.x + paddle.width and
                 paddle.y <= self.position[1] <= paddle.y + paddle.height):
             self.velocity[0] *= -1
+            return True  # Indicate collision with paddle
+        return False
 
     def draw(self, frame):
         cv2.circle(frame, (int(self.position[0]), int(self.position[1])), self.size, (255, 255, 255), -1)
