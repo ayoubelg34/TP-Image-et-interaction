@@ -1,6 +1,6 @@
-import cv2
-import mediapipe as mp
-import numpy as np
+from PongGame import PongGame
+from HandTracker import HandTracker
+from Ball import Ball
 
 class Paddle:
     def __init__(self, x, y, width, height):

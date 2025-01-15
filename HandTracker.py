@@ -1,7 +1,6 @@
-import cv2
-import mediapipe as mp
-import numpy as np
-
+from PongGame import PongGame
+from Ball import Ball
+from Paddle import Paddle
 
 
 class HandTracker:

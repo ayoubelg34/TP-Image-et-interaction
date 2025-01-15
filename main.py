@@ -1,6 +1,11 @@
 import cv2
 import mediapipe as mp
 import numpy as np
+from PongGame import PongGame
+from HandTracker import HandTracker
+from Ball import Ball
+from Paddle import Paddle
+
 
 def main():
     cap = cv2.VideoCapture(0)
@@ -14,7 +19,6 @@ def main():
         ret, frame = cap.read()
         if not ret:
             break
-
         frame = cv2.flip(frame, 1)
         frame = cv2.resize(frame, (640, 480))
 

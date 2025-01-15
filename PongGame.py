@@ -1,3 +1,8 @@
+from HandTracker import HandTracker
+from Ball import Ball
+from Paddle import Paddle
+
+
 class PongGame:
     def __init__(self, width, height):
         self.width = width
