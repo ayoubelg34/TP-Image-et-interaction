@@ -1,6 +1,7 @@
 import cv2
 import mediapipe as mp
 import numpy as np
+from PongGame import PongGame
 
 def main():
     cap = cv2.VideoCapture(0)
