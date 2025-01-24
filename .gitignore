@@ -1,0 +1,31 @@
+# Fichiers compilés Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environnements virtuels
+venv/
+.venv/
+
+# Configurations IDE/éditeur
+.idea/
+.vscode/
+*.swp
+
+# Fichiers journaux
+*.log
+*.tmp
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Captures temporaires de la caméra ou fichiers générés
+*.avi
+*.mp4
+*.jpg
+*.png
+
+# Autres fichiers temporaires
+*.bak
+*.old
