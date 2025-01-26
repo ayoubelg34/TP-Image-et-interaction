@@ -6,31 +6,39 @@ import cv2
 
 class PongGame:
     def __init__(self, width, height):
-        """
-        Initialise le jeu Pong avec tous les éléments nécessaires.
+        print("Initialisation de PongGame...")
 
-        :param width: Largeur de l'écran de jeu (en pixels).
-        :param height: Hauteur de l'écran de jeu (en pixels).
-        """
         self.width = width
         self.height = height
 
-        # Initialisation de la balle au centre de l'écran avec une vitesse initiale.
-        self.ball = Ball((width // 2, height // 2), (7, 7), 8)
+        # Initialisation des éléments du jeu
+        try:
+            print("Initialisation de la balle...")
+            self.ball = Ball((width // 2, height // 2), (7, 7), 8)
+            print("Balle initialisée.")
+        except Exception as e:
+            print(f"Erreur lors de l'initialisation de la balle : {e}")
 
-        # Initialisation des raquettes : une à gauche et l'autre à droite.
-        self.left_paddle = Paddle(0, height // 2 - 50, 10, 100)
-        self.right_paddle = Paddle(width - 10, height // 2 - 50, 10, 100)
+        try:
+            print("Initialisation des raquettes...")
+            self.left_paddle = Paddle(0, height // 2 - 50, 10, 100)
+            self.right_paddle = Paddle(width - 10, height // 2 - 50, 10, 100)
+            print("Raquettes initialisées.")
+        except Exception as e:
+            print(f"Erreur lors de l'initialisation des raquettes : {e}")
 
-        # Initialisation du suivi des mains avec Mediapipe.
-        self.hand_tracker = HandTracker()
+        try:
+            print("Initialisation du tracker de mains...")
+            self.hand_tracker = HandTracker()
+            print("Tracker de mains initialisé.")
+        except Exception as e:
+            print(f"Erreur lors de l'initialisation du tracker de mains : {e}")
 
-        # Scores des joueurs.
+        # Initialisation des scores
         self.score_left = 0
         self.score_right = 0
+        print("PongGame initialisé avec succès.")
 
-        # Compteur pour suivre le nombre d'échanges entre les joueurs.
-        self.exchange_count = 0
 
     def update(self, hand_positions):
         """
