@@ -13,6 +13,8 @@ def main():
     if not cap.isOpened():
         print("Erreur d'ouverture de la caméra.")
         return  # Quitter si la caméra n'est pas accessible.
+    if cap.isOpened():
+    print("Caméra initialisée avec succès.")
 
     # Initialisation du jeu Pong avec une résolution définie.
     game = PongGame(640, 480)  # Largeur: 640 pixels, Hauteur: 480 pixels.
