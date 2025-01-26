@@ -15,23 +15,27 @@ class Ball:
         self.size = size
         self.speed_factor = 1.0
 
-    def update(self, dt, screen_width, screen_height):
+    def update(self, speed_factor, screen_width, screen_height):
         """
         Met à jour la position de la balle.
+        :param speed_factor: Facteur de vitesse pour la balle.
+        :param screen_width: Largeur de l'écran.
+        :param screen_height: Hauteur de l'écran.
         """
-        self.position += self.velocity * dt * self.speed_factor
+        self.position[0] += self.velocity[0] * speed_factor
+        self.position[1] += self.velocity[1] * speed_factor
 
         # Rebondir sur les bords supérieur et inférieur de l'écran
         if self.position[1] <= 0 or self.position[1] >= screen_height - self.size:
             self.velocity[1] *= -1
 
     def check_collision_with_paddle(self, paddle):
-        """
-        Vérifie les collisions avec les raquettes.
-        """
+        print(f"Vérification collision : Balle à ({self.position[0]}, {self.position[1]}), "
+            f"Raquette ({paddle.x}, {paddle.y}, {paddle.width}, {paddle.height})")
         if (paddle.x <= self.position[0] <= paddle.x + paddle.width and
                 paddle.y <= self.position[1] <= paddle.y + paddle.height):
             self.velocity[0] *= -1
+            print("Collision détectée avec une raquette.")
             return True
         return False
 
