@@ -1,21 +1,78 @@
 import cv2
 from PongGame import PongGame
-import pygame  
+import sys
+import os
+import pygame
+
+def menu(screen, clock):
+    """
+    Affiche un menu avec une image de fond et un bouton pour démarrer le jeu.
+    """
+    # Charger l'image de fond
+    try:
+        background = pygame.image.load("assets/fond.png")  
+        background = pygame.transform.scale(background, (800, 600))  # Adapter à la fenêtre
+    except pygame.error as e:
+        print(f"Erreur : Impossible de charger l'image de fond : {e}")
+        return False
+
+    # Définir la police
+    font = pygame.font.Font(None, 74)
+    button_font = pygame.font.Font(None, 36)
+
+    # Boucle du menu
+    while True:
+        screen.blit(background, (0, 0))  # Dessiner l'image de fond
+
+        # Afficher le titre
+        title_text = font.render("Pong Amélioré", True, (255, 255, 255))
+        screen.blit(title_text, (250, 100))
+
+        # Dessiner le bouton
+        button_rect = pygame.Rect(300, 300, 200, 60)  # Position et taille du bouton
+        pygame.draw.rect(screen, (0, 128, 255), button_rect)
+        pygame.draw.rect(screen, (255, 255, 255), button_rect, 2)  # Bordure
+
+        # Texte sur le bouton
+        button_text = button_font.render("Démarrer", True, (255, 255, 255))
+        text_rect = button_text.get_rect(center=button_rect.center)
+        screen.blit(button_text, text_rect)
+
+        # Gérer les événements
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                return False  # Quitter le programme
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+                if button_rect.collidepoint(event.pos):
+                    return True  # Lancer le jeu si le bouton est cliqué
+
+        pygame.display.flip()
+        clock.tick(60)
 
 def main():
-    # Initialiser pygame pour la musique
+    # Initialiser pygame
     pygame.init()
     pygame.mixer.init()
 
-    # Charger et jouer la musique
+    # Configuration de la fenêtre
+    width, height = 800, 600
+    screen = pygame.display.set_mode((width, height))
+    pygame.display.set_caption("Pong Amélioré")
+    clock = pygame.time.Clock()
+
+    # Afficher le menu avant de lancer le jeu
+    if not menu(screen, clock):
+        pygame.quit()
+        sys.exit()
+
     try:
-        pygame.mixer.music.load("assets/freedom.mp3")  # Remplacez par le chemin de votre fichier audio
-        pygame.mixer.music.set_volume(0.5)  # Volume de la musique (entre 0.0 et 1.0)
-        pygame.mixer.music.play(-1)  # Joue en boucle (-1 pour répéter infiniment)
+        pygame.mixer.music.load("assets/freedom.mp3")  
+        pygame.mixer.music.set_volume(0.5)
+        pygame.mixer.music.play(-1)
     except pygame.error as e:
         print(f"Erreur lors du chargement de la musique : {e}")
 
-    width, height = 800, 600
+    # Lancer le jeu
     game = PongGame(width, height)
 
     cap = cv2.VideoCapture(0)
@@ -31,24 +88,16 @@ def main():
             print("Erreur : échec de la capture d'image.")
             break
 
-        # On retourne l'image horizontalement
         frame = cv2.flip(frame, 1)
-        # On redimensionne à la taille de la zone de jeu
         frame = cv2.resize(frame, (width, height))
 
-        # On récupère la position des mains
         hand_positions = game.hand_tracker.get_hand_positions(frame, height)
-
-        # Mise à jour de la logique du jeu
         game.update(hand_positions)
-
-        # Dessin des éléments
         game.draw(frame)
+
         cv2.imshow("Pong Game", frame)
 
-        # Vérifie si on arrête le jeu soit parce qu'un joueur a 5 points, soit par 'q'
         if game.game_over:
-            # Laisser le temps de voir l'écran de fin (1 seconde par exemple)
             cv2.waitKey(1000)
             break
 
@@ -56,10 +105,10 @@ def main():
             print("Fin du jeu demandée par l'utilisateur.")
             break
 
-    # Arrêter la musique et libérer les ressources
     pygame.mixer.music.stop()
     cap.release()
     cv2.destroyAllWindows()
+    pygame.quit()
     print("Jeu terminé.")
 
 if __name__ == "__main__":
