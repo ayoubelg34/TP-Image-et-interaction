@@ -13,6 +13,7 @@ class Ball:
         self.position = np.array(position, dtype=float)
         self.velocity = np.array(velocity, dtype=float)
         self.size = size
+        # Facteur permettant d'augmenter ou de diminuer la vitesse de la balle
         self.speed_factor = 1.0
 
     def update(self, speed_factor, screen_width, screen_height):
@@ -25,14 +26,14 @@ class Ball:
         self.position[0] += self.velocity[0] * speed_factor
         self.position[1] += self.velocity[1] * speed_factor
 
-        # Rebondir sur les bords supérieur et inférieur
+        # Rebond sur les bords supérieur et inférieur
         if self.position[1] <= 0 or self.position[1] >= screen_height - self.size:
             self.velocity[1] *= -1
 
     def check_collision_with_paddle(self, paddle):
         """
-        Vérifie si la balle entre en collision avec la raquette donnée.
-        Renvoie True s'il y a collision, False sinon.
+        Vérifie si la balle entre en collision avec la raquette.
+        Retourne True si collision, False sinon.
         """
         print(
             f"Vérification collision : Balle à ({self.position[0]}, {self.position[1]}), "
@@ -58,8 +59,8 @@ class Ball:
         cv2.circle(frame, (center[0] + shadow_offset, center[1] + shadow_offset),
                    self.size, (50, 50, 50), -1)
 
-        # Dégradé radial (blanc vers bleu clair)
+        # Dégradé radial (blanc -> bleu clair)
         for i in range(self.size, 0, -1):
             color_intensity = 255 - int((i / self.size) * 255)
-            color = (255, color_intensity, color_intensity)  # Dégradé de blanc à bleu clair
+            color = (255, color_intensity, color_intensity)
             cv2.circle(frame, center, i, color, -1)
