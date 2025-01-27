@@ -4,10 +4,10 @@ class Paddle:
     def __init__(self, x, y, width, height):
         """
         Initialise une raquette.
-        :param x: Position en x de la raquette.
-        :param y: Position en y de la raquette.
-        :param width: Largeur de la raquette.
-        :param height: Hauteur de la raquette.
+        :param x: Position x de la raquette.
+        :param y: Position y de la raquette.
+        :param width: Largeur.
+        :param height: Hauteur.
         """
         self.x = x
         self.y = y
@@ -16,10 +16,10 @@ class Paddle:
 
     def update(self, position, screen_height):
         """
-        Met à jour la position de la raquette en se basant sur
-        la position verticale détectée (ex: y de la main).
+        Déplace la raquette en fonction de la coordonnée y détectée.
         """
         self.y = position - self.height // 2
+        # Empêche la raquette de sortir de l'écran
         self.y = max(0, min(self.y, screen_height - self.height))
 
     def draw(self, frame, color=(255, 0, 0)):
@@ -32,5 +32,5 @@ class Paddle:
         # Remplissage principal
         cv2.rectangle(frame, top_left, bottom_right, color, -1)
 
-        # Bordure pour donner un effet "3D"
+        # Bordure (effet 3D simple)
         cv2.rectangle(frame, top_left, bottom_right, (0, 0, 0), 2)

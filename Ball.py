@@ -25,7 +25,7 @@ class Ball:
         self.position[0] += self.velocity[0] * speed_factor
         self.position[1] += self.velocity[1] * speed_factor
 
-        # Rebondir sur les bords supérieur et inférieur de l'écran
+        # Rebondir sur les bords supérieur et inférieur
         if self.position[1] <= 0 or self.position[1] >= screen_height - self.size:
             self.velocity[1] *= -1
 
