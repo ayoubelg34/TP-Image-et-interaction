@@ -1,7 +1,20 @@
 import cv2
 from PongGame import PongGame
+import pygame  
 
 def main():
+    # Initialiser pygame pour la musique
+    pygame.init()
+    pygame.mixer.init()
+
+    # Charger et jouer la musique
+    try:
+        pygame.mixer.music.load("assets/freedom.mp3")  # Remplacez par le chemin de votre fichier audio
+        pygame.mixer.music.set_volume(0.5)  # Volume de la musique (entre 0.0 et 1.0)
+        pygame.mixer.music.play(-1)  # Joue en boucle (-1 pour répéter infiniment)
+    except pygame.error as e:
+        print(f"Erreur lors du chargement de la musique : {e}")
+
     width, height = 800, 600
     game = PongGame(width, height)
 
@@ -43,6 +56,8 @@ def main():
             print("Fin du jeu demandée par l'utilisateur.")
             break
 
+    # Arrêter la musique et libérer les ressources
+    pygame.mixer.music.stop()
     cap.release()
     cv2.destroyAllWindows()
     print("Jeu terminé.")
